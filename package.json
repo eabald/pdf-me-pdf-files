@@ -29,14 +29,17 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.2",
     "@pdf-me/shared": "^1.0.0",
+    "@types/aws-sdk": "^2.7.0",
     "@types/hapi__joi": "^17.1.7",
     "amqp-connection-manager": "^3.2.2",
     "amqplib": "^0.8.0",
+    "aws-sdk": "^2.965.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.2.36"
+    "typeorm": "^0.2.36",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
