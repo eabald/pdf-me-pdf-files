@@ -21,14 +21,15 @@ export class FilesService {
     const uploadResult = await s3
       .upload({
         Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
-        Body: fileData.file,
-        Key: filename,
+        Body: Buffer.from(fileData.file),
+        Key: `${filename}.pdf`,
       })
       .promise();
     const fileRecord = await this.fileRepository.create({
       filename: uploadResult.Key,
       ownerId: fileData.userId,
     });
+    await this.fileRepository.save(fileRecord);
     return fileRecord;
   }
 
@@ -43,10 +44,7 @@ export class FilesService {
           Key: fileInfo.filename,
         })
         .createReadStream();
-      return {
-        stream,
-        info: fileInfo,
-      };
+      return stream;
     }
     throw new RpcException({
       message: 'File not found',
@@ -64,5 +62,6 @@ export class FilesService {
     const dt = new Date();
     dt.setHours(dt.getHours() - 2);
     await this.fileRepository.delete({ createdAt: LessThan(dt) });
+    // delete files
   }
 }
