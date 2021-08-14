@@ -38,13 +38,11 @@ export class FilesService {
 
     const fileInfo = await this.fileRepository.findOne({ filename });
     if (fileInfo) {
-      const stream = await s3
-        .getObject({
-          Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
-          Key: fileInfo.filename,
-        })
-        .createReadStream();
-      return stream;
+      const path = await s3.getSignedUrlPromise('getObject', {
+        Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
+        Key: fileInfo.filename,
+      });
+      return path;
     }
     throw new RpcException({
       message: 'File not found',
