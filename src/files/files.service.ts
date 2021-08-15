@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FileEntity, SaveFileDto } from '@pdf-me/shared';
 import { S3 } from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
-import { Repository, LessThan } from 'typeorm';
+import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { RpcException } from '@nestjs/microservices';
 
@@ -57,9 +57,19 @@ export class FilesService {
   }
 
   async prune() {
-    const dt = new Date();
-    dt.setHours(dt.getHours() - 2);
-    await this.fileRepository.delete({ createdAt: LessThan(dt) });
-    // delete files
+    const s3 = this.setS3();
+    const filesToDelete = await this.fileRepository.query(
+      `SELECT "filename" FROM "files" WHERE "createdAt" < now() - INTERVAL '2 hours';`,
+    );
+    filesToDelete.forEach(
+      async ({ filename }) =>
+        await s3.deleteObject({
+          Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
+          Key: filename,
+        }),
+    );
+    await this.fileRepository.query(
+      `DELETE FROM "files" WHERE "createdAt" < now() - INTERVAL '2 hours';`,
+    );
   }
 }
