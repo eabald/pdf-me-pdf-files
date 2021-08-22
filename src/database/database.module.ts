@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { FileEntity, TemplateEntity, UserEntity } from '@pdf-me/shared';
+import {
+  FileEntity,
+  TemplateEntity,
+  UserEntity,
+  LimitEntity,
+} from '@pdf-me/shared';
 
 @Module({
   imports: [
@@ -15,7 +20,7 @@ import { FileEntity, TemplateEntity, UserEntity } from '@pdf-me/shared';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [FileEntity, UserEntity, TemplateEntity],
+        entities: [FileEntity, UserEntity, TemplateEntity, LimitEntity],
         synchronize: true,
         logging: true,
       }),
