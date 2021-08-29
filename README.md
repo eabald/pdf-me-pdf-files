@@ -6,7 +6,7 @@ This service main concern is to manage files generated in document generation se
 
 ## Development
 
-To start api-gateway service in development mode first of all install npm dependencies:
+To start files service in development mode first of all install npm dependencies:
 
 ```bash
 npm i
