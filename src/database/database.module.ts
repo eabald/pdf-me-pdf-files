@@ -6,6 +6,7 @@ import {
   TemplateEntity,
   UserEntity,
   LimitEntity,
+  PaymentEntity,
 } from '@pdf-me/shared';
 
 @Module({
@@ -20,7 +21,13 @@ import {
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [FileEntity, UserEntity, TemplateEntity, LimitEntity],
+        entities: [
+          UserEntity,
+          TemplateEntity,
+          FileEntity,
+          LimitEntity,
+          PaymentEntity,
+        ],
         synchronize: true,
         logging: true,
       }),
