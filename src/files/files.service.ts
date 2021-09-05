@@ -59,7 +59,7 @@ export class FilesService {
   async prune() {
     const s3 = this.setS3();
     const filesToDelete = await this.fileRepository.query(
-      `SELECT "filename" FROM "files" WHERE "createdAt" < now() - INTERVAL '2 hours';`,
+      `SELECT "filename" FROM "file" WHERE "created_at" < now() - INTERVAL '2 hours';`,
     );
     filesToDelete.forEach(
       async ({ filename }) =>
@@ -69,7 +69,7 @@ export class FilesService {
         }),
     );
     await this.fileRepository.query(
-      `DELETE FROM "files" WHERE "createdAt" < now() - INTERVAL '2 hours';`,
+      `DELETE FROM "file" WHERE "created_at" < now() - INTERVAL '2 hours';`,
     );
   }
 }
