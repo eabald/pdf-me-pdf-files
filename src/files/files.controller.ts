@@ -12,6 +12,11 @@ export class FilesController {
     return await this.filesService.save(payload);
   }
 
+  @MessagePattern({ cmd: 'files-create' })
+  async createFile(@Payload() payload: Buffer) {
+    return await this.filesService.createFile(payload);
+  }
+
   @MessagePattern({ cmd: 'files-get-file' })
   async getFile(@Payload() payload: string) {
     return await this.filesService.getByName(payload);

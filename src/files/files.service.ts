@@ -16,21 +16,26 @@ export class FilesService {
   ) {}
 
   async save(fileData: SaveFileDto) {
-    const filename = uuid();
-    const s3 = this.setS3();
-    const uploadResult = await s3
-      .upload({
-        Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
-        Body: Buffer.from(fileData.file),
-        Key: `${filename}.pdf`,
-      })
-      .promise();
+    const uploadResult = await this.createFile(fileData.file);
     const fileRecord = await this.fileRepository.create({
       filename: uploadResult.Key,
       ownerId: fileData.userId,
     });
     await this.fileRepository.save(fileRecord);
     return fileRecord;
+  }
+
+  async createFile(file: Buffer) {
+    const filename = uuid();
+    const s3 = this.setS3();
+    const uploadResult = await s3
+      .upload({
+        Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
+        Body: Buffer.from(file),
+        Key: `${filename}.pdf`,
+      })
+      .promise();
+    return uploadResult;
   }
 
   async getByName(filename: string) {
