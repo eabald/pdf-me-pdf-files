@@ -6,6 +6,8 @@ import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { RpcException } from '@nestjs/microservices';
+import { promises } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class FilesService {
@@ -18,7 +20,7 @@ export class FilesService {
   async save(fileData: SaveFileDto) {
     const uploadResult = await this.createFile(fileData.file);
     const fileRecord = await this.fileRepository.create({
-      filename: uploadResult.Key,
+      filename: uploadResult,
       ownerId: fileData.userId,
     });
     await this.fileRepository.save(fileRecord);
@@ -26,16 +28,9 @@ export class FilesService {
   }
 
   async createFile(file: Buffer) {
-    const filename = uuid();
-    const s3 = this.setS3();
-    const uploadResult = await s3
-      .upload({
-        Bucket: this.configService.get('AWS_PRIVATE_BUCKET_NAME'),
-        Body: Buffer.from(file),
-        Key: `${filename}.pdf`,
-      })
-      .promise();
-    return uploadResult;
+    const filename = `${uuid()}.pdf`;
+    await promises.writeFile(join(__dirname, '../storage/', filename), file);
+    return filename;
   }
 
   async getByName(filename: string) {
