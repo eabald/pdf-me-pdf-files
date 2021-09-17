@@ -35,3 +35,7 @@ lerna-debug.log*
 
 # env
 .env
+
+# storage
+src/storage/**/*
+!src/storage/.gitkeep
