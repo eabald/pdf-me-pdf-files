@@ -7,7 +7,6 @@ import { v4 as uuid } from 'uuid';
 import { RpcException } from '@nestjs/microservices';
 import { promises } from 'fs';
 import { join } from 'path';
-
 @Injectable()
 export class FilesService {
   constructor(
@@ -27,7 +26,6 @@ export class FilesService {
   }
 
   async createFile(file: Buffer) {
-    console.log(file);
     const filename = `${uuid()}.pdf`;
     await promises.writeFile(
       join(__dirname, '../storage/', filename),
@@ -37,7 +35,6 @@ export class FilesService {
   }
 
   async getByName(filename: string) {
-    console.log(filename);
     const fileInfo = await this.fileRepository.findOne({
       filename: `${filename}.pdf`,
     });
@@ -45,7 +42,6 @@ export class FilesService {
       const file = await promises.readFile(
         join(__dirname, '../storage/', fileInfo.filename),
       );
-      console.log(file);
       return file;
     }
     throw new RpcException({
