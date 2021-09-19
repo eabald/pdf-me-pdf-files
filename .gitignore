@@ -39,3 +39,4 @@ lerna-debug.log*
 # storage
 src/storage/**/*
 !src/storage/.gitkeep
+!src/storage/index.ts

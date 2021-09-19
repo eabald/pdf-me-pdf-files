@@ -7,6 +7,8 @@ import { v4 as uuid } from 'uuid';
 import { RpcException } from '@nestjs/microservices';
 import { promises } from 'fs';
 import { join } from 'path';
+import '../storage';
+
 @Injectable()
 export class FilesService {
   constructor(
