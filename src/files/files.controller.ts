@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { SaveFileDto } from '@pdf-me/shared';
+import { SaveFileDto } from '@eabald/pdf-me-shared';
 import { FilesService } from './files.service';
 
 @Controller('files')

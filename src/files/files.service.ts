@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FileEntity, SaveFileDto } from '@pdf-me/shared';
+import { FileEntity, SaveFileDto } from '@eabald/pdf-me-shared';
 import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';

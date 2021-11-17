@@ -1,5 +1,5 @@
 {
-  "name": "@pdf-me/files",
+  "name": "@eabald/pdf-me-files",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@eabald/pdf-me-shared": "^0.0.1-alfa",
     "@hapi/joi": "^17.1.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^1.0.1",
@@ -28,7 +29,6 @@
     "@nestjs/microservices": "^8.0.6",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.2",
-    "@pdf-me/shared": "^1.0.0",
     "@types/aws-sdk": "^2.7.0",
     "@types/hapi__joi": "^17.1.7",
     "amqp-connection-manager": "^3.2.2",
